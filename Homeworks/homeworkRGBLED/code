@@ -1,0 +1,38 @@
+const int redPin = 11;
+const int greenPin = 10;
+const int bluePin = 9;
+int potVal0 = 0;
+int potVal1 = 0;
+int potVal2 = 0;
+const int potPin0 = A0;
+const int potPin1 = A1;
+const int potPin2 = A2;
+
+void setup() {
+pinMode(redPin, OUTPUT);
+pinMode(greenPin, OUTPUT);
+pinMode(bluePin, OUTPUT);
+Serial.begin(9600);
+}
+
+void loop() {
+
+potVal0 = analogRead(potPin0);
+analogWrite(redPin,potVal0);
+
+
+potVal1 = analogRead(potPin1);
+analogWrite(greenPin,potVal1);
+
+
+potVal2 = analogRead(potPin2);
+analogWrite(bluePin,potVal2);
+
+
+Serial.println(potVal0);
+
+Serial.println(potVal1);
+
+Serial.println(potVal2);
+
+}
