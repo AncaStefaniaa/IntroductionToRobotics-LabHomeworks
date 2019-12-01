@@ -1,0 +1,164 @@
+#include <LiquidCrystal.h>
+const int RS = 12;
+const int enable = 11;
+const int d4 = 5;
+const int d5 = 4;
+const int d6 = 3;
+const int d7 = 2;
+
+
+const int displayDelay = 200;
+const int pinX = A0;
+const int pinY = A1;
+const int swButtonPin = A3;
+const int low = 250;
+const int high = 700;
+
+int startGame = 0;
+int clicked = 0;
+int highScore = 0;
+int xValue = 0;
+int yValue = 0;
+int lives = 3;
+int level = 0;
+int startLevel = 0;
+int menuSelected = 0;
+int score = 0;
+int buttonValue = 0;
+int lastButtonValue = 0;
+int currentLives = 0;
+long int startTime = 0;
+long int lastDisplayMillis = 0;
+
+LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
+
+bool buttonClicked(){
+  buttonValue = digitalRead(swButtonPin);
+  if(lastButtonValue == 0)
+     if(buttonValue == 1){
+       lastButtonValue = 1;
+       return 0;
+       }
+  if(lastButtonValue == 0)
+     if(buttonValue == 1){
+       lastButtonValue = 1; 
+       return 1; 
+     }
+}
+
+void menu(){
+  if(millis() - lastDisplayMillis > displayDelay){
+    lcd.clear();
+    lcd.setCursor(0,0);
+    if(menuSelected == 1)
+      lcd.print(">");
+      else
+      lcd.print(" ");
+
+      lcd.print("Play");
+
+      if(menuSelected == 2)
+      lcd.print(">");
+      else
+      lcd.print(" ");
+
+      lcd.print("HighScore");
+      
+      lcd.setCursor(0, 1);
+      if(menuSelected == 3)
+      lcd.print(">");
+      else
+      lcd.print(" ");
+
+      lcd.print("Settings");
+
+      lastDisplayMillis = millis();
+  }
+}
+
+void end(){
+  
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Congratulations, you finished the game");
+  lcd.setCursor(0,1);
+  lcd.print("Press button to exit");
+  while (1) {
+      if (buttonClicked()) {
+        clicked = 0;
+        break;
+      }
+    }
+  
+}
+void showHighScore(){
+  lcd.print(highScore);
+}
+void play(){
+  //set initial values
+  startTime = millis();
+  currentLives = 3;
+  //set score and level during game
+  level = startLevel + (millis() - startTime)/5000;
+  score = level * 3;
+
+  //set high score
+  if(score > highScore){
+    highScore = score;
+  }
+  level = level + 1;
+  
+  if(millis - startTime > 9000){
+    end();
+  }
+}
+
+
+void navigate(){
+  xValue = analogRead(pinX);
+  //aici verific daca nu am depasit dimensiunea mea
+  if(xValue < low){
+    menuSelected = menuSelected - 1;
+    if(menuSelected < 1)
+      menuSelected = menuSelected % 4;
+  }
+  else{
+    menuSelected = menuSelected + 1;
+    if(menuSelected > 3)
+      menuSelected = menuSelected % 4;
+  }
+  menu();    
+}
+
+
+void settings(){
+  if (millis() - lastDisplayMillis > displayDelay) {
+    lcd.clear();
+    lcd.print("Level: ");
+    lcd.print(startLevel);
+    lastDisplayMillis = millis();
+  }
+}
+void setup() {
+// set up the LCD's number of columns and rows:
+lcd.begin(16, 2);
+pinMode(pinX, INPUT);
+pinMode(pinY, INPUT);
+pinMode(swButtonPin,INPUT_PULLUP);
+
+}
+void loop() {
+ if(!clicked){  
+    if(buttonClicked())
+    clicked = 1;
+    navigate();
+    }
+ else{
+    if(menuSelected == 1)
+      play();
+    else if(menuSelected == 2)
+      settings();
+    else
+      showHighScore();
+ }
+} 
