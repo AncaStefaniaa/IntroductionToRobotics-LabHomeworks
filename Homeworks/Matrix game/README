@@ -1,0 +1,11 @@
+SNAKE
+
+ This is the classic version of the most popular mobile and computer game named “SNAKE”. 
+ The main objective of this game is to feed an increasing length of a snake with food particles which are found at random positions.
+ 
+ Specifications:
+ 
+ It will have 2 levels - as level increases the snake becomes longer
+ The user will have to finish the game in 40 seconds
+ Highscore will be saved
+ 
