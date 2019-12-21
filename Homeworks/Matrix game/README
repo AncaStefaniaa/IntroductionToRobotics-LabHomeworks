@@ -3,9 +3,19 @@ SNAKE
  This is the classic version of the most popular mobile and computer game named “SNAKE”. 
  The main objective of this game is to feed an increasing length of a snake with food particles which are found at random positions.
  
+ Hardware:
+  -8X8 matrix
+  -1 x joystick
+  -cables
+  -1 x driver
+  -1 x arduino board
+  -1 x LCD
+  
  Specifications:
  
- It will have 2 levels - as level increases the snake becomes longer
- The user will have to finish the game in 40 seconds
+ It will have 3 levels - as level increases the snake becomes longer and the dificulty will increase
  Highscore will be saved
+ 
+ Demo video:
+ 
  
